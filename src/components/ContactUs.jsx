@@ -30,7 +30,6 @@ const ContactUs = () => {
     } catch(error){
       toast.error(error.message)
     }
-    
   };
 
   return (
