@@ -19,7 +19,7 @@ const App = () => {
   // Refs for custom cursor position tracking
   
   const mouse = useRef({x:0, y:0})
-  const postion = useRef({x:0, y:0})
+  const position = useRef({x:0, y:0})
 
   useEffect(()=>{
    const handleMouseMove = (e) => {
@@ -33,8 +33,16 @@ const App = () => {
     position.current.y += (mouse.current.y - position.current.y) * 0.1
 
     if(dotRef.current && outlineRef.current){
-      dotRef.current.style.transform = `translate3d(${mouse.current.x - 6}px, ${mouse.current.y - 6}px)`
+      dotRef.current.style.transform = `translate3d(${mouse.current.x - 6}px, ${mouse.current.y - 6}px,0)`
+      outlineRef.current.style.transform = `translate3d(${position.current.x - 20}px, ${position.current.y - 20}px, 0)`
     }
+
+    requestAnimationFrame(animate)
+   }
+
+   animate()
+   return () => {
+    document.removeEventListener('mousemove',handleMouseMove)
    }
   },[])
 
@@ -53,7 +61,8 @@ const App = () => {
 
 
       {/* custom cursor ring */}
-      <div ref={outlineRef} className='fixed top-0 left-0 h-10 w-10 rounded-full border border-primary pointer-events-none z-9999'>
+      <div ref={outlineRef} className='fixed top-0 left-0 h-10 w-10 rounded-full border border-primary pointer-events-none z-9999' 
+      style={{transition: 'transform 0.1s ease out'}}>
       </div>
 
      {/* custom cursor dot */}

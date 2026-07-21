@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-
+import {motion} from "motion/react"
 const ServiceCard = ({service,index}) => {
   const [postion,setPosition] = useState({x:0,y:0}); 
   const [visible,setVisible] = useState(false); 
@@ -9,7 +9,13 @@ const ServiceCard = ({service,index}) => {
      setPosition({x:e.clientX - bounds.left, y:e.clientY - bounds.top})
   }
   return (
-    <div className='relative overflow-hidden max-w-lg m-2 sm:m-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl shadow-gray-100 dark:shadow-white/10' onMouseEnter={()=>setVisible(true)} onMouseLeave={()=>setVisible(false)} ref={divRef} onMouseMove={handleMouseMove}>
+    <motion.div 
+       initial = {{opacity:0, y:30}}
+       whileInView={{opacity:1, y:0}}
+       transition={{duration: 0.5, delay: index * 0.2}}
+       viewport={{once:true}}
+
+    className='relative overflow-hidden max-w-lg m-2 sm:m-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl shadow-gray-100 dark:shadow-white/10' onMouseEnter={()=>setVisible(true)} onMouseLeave={()=>setVisible(false)} ref={divRef} onMouseMove={handleMouseMove}>
 
         <div className={`pointer-events-none blur-2xl rounded-full bg-linear-to-r from-blue-500 via-indigo-500 to-purple-500 w-300 h-300 absolute z-0 transition-opacity duration-500 mix-blend-lighten ${visible ? 'opacity-70':'opacity-0'} `} style={{top:postion.y - 150, left: postion.x - 150}}/>
 
@@ -25,7 +31,7 @@ const ServiceCard = ({service,index}) => {
 
           </div>
 
-</div>
+</motion.div>
     
     
   )
